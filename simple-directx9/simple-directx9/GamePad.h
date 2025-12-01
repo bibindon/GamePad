@@ -35,7 +35,6 @@ enum class eGamePadButtonType
     START,
     UNKNOWN,
 };
-static constexpr int BUTTON_KIND_MAX { 8 };
 
 enum class eGamePadButtonState
 {
