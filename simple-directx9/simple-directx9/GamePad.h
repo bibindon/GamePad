@@ -73,6 +73,8 @@ private:
     static bool m_bLeftStickUsed;
     static const int KEY_DEQUE_MAX_SIZE = 300;
     static const int SIMULTANEOUS_ALLOW_FRAME = 3;
+
+    static bool m_bConnected;
 };
 
 

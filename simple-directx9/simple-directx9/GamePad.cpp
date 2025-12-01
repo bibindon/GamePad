@@ -17,6 +17,7 @@ LPDIRECTINPUTDEVICE8 GamePad::m_DIDevice;
 deque<GamePad::GamePadInfo> GamePad::m_deqButton;
 float GamePad::m_leftRadian { 0.f };
 bool GamePad::m_bLeftStickUsed { false };
+bool GamePad::m_bConnected { false };
 
 bool GamePad::Init(LPDIRECTINPUT8 DI, HWND hwnd)
 {
