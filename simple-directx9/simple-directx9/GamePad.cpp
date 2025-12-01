@@ -12,14 +12,14 @@ using std::deque;
 BOOL CALLBACK DeviceFindCallback(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef);
 BOOL SetupGamePadProperty(LPDIRECTINPUTDEVICE8 device);
 
-LPDIRECTINPUT8 GamePad::m_DI;
-LPDIRECTINPUTDEVICE8 GamePad::m_DIDevice;
-deque<GamePad::GamePadInfo> GamePad::m_deqButton;
-float GamePad::m_leftRadian { 0.f };
-bool GamePad::m_bLeftStickUsed { false };
-bool GamePad::m_bConnected { false };
+LPDIRECTINPUT8 GamePadDirectInput::m_DI;
+LPDIRECTINPUTDEVICE8 GamePadDirectInput::m_DIDevice;
+deque<GamePadDirectInput::GamePadInfo> GamePadDirectInput::m_deqButton;
+float GamePadDirectInput::m_leftRadian { 0.f };
+bool GamePadDirectInput::m_bLeftStickUsed { false };
+bool GamePadDirectInput::m_bConnected { false };
 
-bool GamePad::Init(LPDIRECTINPUT8 DI, HWND hwnd)
+bool GamePadDirectInput::Init(LPDIRECTINPUT8 DI, HWND hwnd)
 {
     m_DI = DI;
     // Init button_queue_
@@ -58,7 +58,7 @@ bool GamePad::Init(LPDIRECTINPUT8 DI, HWND hwnd)
     return true;
 }
 
-void GamePad::Finalize()
+void GamePadDirectInput::Finalize()
 {
     if (m_DIDevice != nullptr)
     {
@@ -76,7 +76,7 @@ struct DeviceEnumParam
     HWND m_hWnd;
 };
 
-BOOL GamePad::StartGamePadControl()
+BOOL GamePadDirectInput::StartGamePadControl()
 {
     if (m_DIDevice == nullptr)
     {
@@ -114,7 +114,7 @@ BOOL CALLBACK DeviceFindCallback(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef)
     }
 
     // Create device.
-    HRESULT hresult { GamePad::m_DI->CreateDevice(
+    HRESULT hresult { GamePadDirectInput::m_DI->CreateDevice(
         lpddi->guidInstance,
         parameter->m_argDIDevice,
         nullptr) };
@@ -153,7 +153,7 @@ BOOL CALLBACK DeviceFindCallback(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef)
 
 
 
-void GamePad::Update()
+void GamePadDirectInput::Update()
 {
     if (m_DIDevice == nullptr)
     {
@@ -421,7 +421,7 @@ void GamePad::Update()
     }
 }
 
-bool GamePad::IsHold(eGamePadButtonType button)
+bool GamePadDirectInput::IsHold(eGamePadButtonType button)
 {
     if (m_deqButton.at(0).m_statusMap.at(button) == eGamePadButtonState::HOLD)
     {
@@ -430,7 +430,7 @@ bool GamePad::IsHold(eGamePadButtonType button)
     return false;
 }
 
-bool GamePad::IsUp(eGamePadButtonType button)
+bool GamePadDirectInput::IsUp(eGamePadButtonType button)
 {
     if (m_deqButton.at(0).m_statusMap.at(button) == eGamePadButtonState::UP)
     {
@@ -439,7 +439,7 @@ bool GamePad::IsUp(eGamePadButtonType button)
     return false;
 }
 
-bool GamePad::IsDownFirst(eGamePadButtonType button)
+bool GamePadDirectInput::IsDownFirst(eGamePadButtonType button)
 {
     if (m_deqButton.at(0).m_statusMap.at(button) == eGamePadButtonState::DOWN_FIRST)
     {
@@ -448,7 +448,7 @@ bool GamePad::IsDownFirst(eGamePadButtonType button)
     return false;
 }
 
-bool GamePad::IsDown(eGamePadButtonType button)
+bool GamePadDirectInput::IsDown(eGamePadButtonType button)
 {
     if (m_deqButton.at(0).m_statusMap.at(button) == eGamePadButtonState::DOWN ||
         m_deqButton.at(0).m_statusMap.at(button) == eGamePadButtonState::HOLD)
@@ -458,17 +458,17 @@ bool GamePad::IsDown(eGamePadButtonType button)
     return false;
 }
 
-float GamePad::GetLeftRadian()
+float GamePadDirectInput::GetLeftRadian()
 {
     return m_leftRadian;
 }
 
-bool GamePad::IsLeftStickUsed()
+bool GamePadDirectInput::IsLeftStickUsed()
 {
     return m_bLeftStickUsed;
 }
 
-bool GamePad::CheckSimultaneous(eGamePadButtonType button)
+bool GamePadDirectInput::CheckSimultaneous(eGamePadButtonType button)
 {
     for (std::size_t i = 0; i < SIMULTANEOUS_ALLOW_FRAME; ++i)
     {
@@ -484,7 +484,7 @@ bool GamePad::CheckSimultaneous(eGamePadButtonType button)
     return false;
 }
 
-bool GamePad::CreateDevice(HWND hwnd)
+bool GamePadDirectInput::CreateDevice(HWND hwnd)
 {
     DeviceEnumParam parameter = { 0 };
 

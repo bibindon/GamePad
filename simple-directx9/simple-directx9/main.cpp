@@ -102,7 +102,7 @@ int WINAPI _tWinMain(_In_ HINSTANCE hInstance,
                                              (LPVOID*)&m_directInput,
                                              NULL);
 
-        GamePad::Init(m_directInput, hWnd);
+        GamePadDirectInput::Init(m_directInput, hWnd);
     }
 
     ShowWindow(hWnd, SW_SHOWDEFAULT);
@@ -120,7 +120,7 @@ int WINAPI _tWinMain(_In_ HINSTANCE hInstance,
         {
             Sleep(16);
 
-            GamePad::Update();
+            GamePadDirectInput::Update();
 
             Render();
         }
@@ -304,7 +304,7 @@ void Cleanup()
     SAFE_RELEASE(g_pd3dDevice);
     SAFE_RELEASE(g_pD3D);
 
-    GamePad::Finalize();
+    GamePadDirectInput::Finalize();
 }
 
 void Render()

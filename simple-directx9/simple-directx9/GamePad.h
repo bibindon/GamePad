@@ -43,7 +43,10 @@ enum class eGamePadButtonState
     UP,
     MAX,
 };
-class GamePad
+
+// XInputとDirectInputがある
+
+class GamePadDirectInput
 {
 public:
 
