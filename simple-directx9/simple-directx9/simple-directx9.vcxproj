@@ -149,6 +149,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GamePad.cpp" />
+    <ClCompile Include="GamePadDirectInput.cpp" />
+    <ClCompile Include="GamePadXInput.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +170,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GamePad.h" />
+    <ClInclude Include="GamePadDirectInput.h" />
+    <ClInclude Include="GamePadXInput.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
