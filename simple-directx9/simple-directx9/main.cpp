@@ -13,6 +13,8 @@
 #include <crtdbg.h>
 #include <vector>
 
+#include "GamePad.h"
+
 #define SAFE_RELEASE(p) { if (p) { (p)->Release(); (p) = NULL; } }
 
 const int WINDOW_SIZE_W = 1600;
@@ -27,6 +29,8 @@ std::vector<LPDIRECT3DTEXTURE9> g_pTextures;
 DWORD g_dwNumMaterials = 0;
 LPD3DXEFFECT g_pEffect = NULL;
 bool g_bClose = false;
+
+LPDIRECTINPUT8 m_directInput = nullptr;
 
 static void TextDraw(LPD3DXFONT pFont, TCHAR* text, int X, int Y);
 static void InitD3D(HWND hWnd);
@@ -86,6 +90,21 @@ int WINAPI _tWinMain(_In_ HINSTANCE hInstance,
                              NULL);
 
     InitD3D(hWnd);
+
+    {
+        //-------------------------------------------------
+        // DirectInputの初期化
+        //-------------------------------------------------
+        // directinput
+        HRESULT hResult = DirectInput8Create(hInstance,
+                                             DIRECTINPUT_VERSION,
+                                             IID_IDirectInput8,
+                                             (LPVOID*)&m_directInput,
+                                             NULL);
+
+        GamePad::Init(m_directInput, hWnd);
+    }
+
     ShowWindow(hWnd, SW_SHOWDEFAULT);
     UpdateWindow(hWnd);
 
@@ -100,6 +119,9 @@ int WINAPI _tWinMain(_In_ HINSTANCE hInstance,
         else
         {
             Sleep(16);
+
+            GamePad::Update();
+
             Render();
         }
 
@@ -281,6 +303,8 @@ void Cleanup()
     SAFE_RELEASE(g_pFont);
     SAFE_RELEASE(g_pd3dDevice);
     SAFE_RELEASE(g_pD3D);
+
+    GamePad::Finalize();
 }
 
 void Render()
